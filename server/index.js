@@ -13,8 +13,7 @@ app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 
-app.get("/api", async (req, res) => {
-	res.send("Hello World");
+app.get("/word", async (req, res) => {
 	var data = fs.readFileSync(path.join('server','data', 'wordle-answers-alphabetical.txt'), 'utf8');
     var words = data.toString().split("\n");
 
@@ -23,7 +22,7 @@ app.get("/api", async (req, res) => {
 
 	var translated = await translate(word, {to: languages[Math.floor(Math.random()*languages.length)]})
 
-	console.log(word, language, translated)
+  res.json({"word": word, "language": language, "translated": translated})
 
 
 });
