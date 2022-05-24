@@ -4,19 +4,24 @@ import React from "react";
 
 const tries = 3
 
-  
-  
+
+
   class App extends React.Component{
 
     constructor(props) {
       super(props);
       this.state = {word: 'cheese',translated: 'fromage', language: 'French', counter: 0};
-      
+
     }
 
-    
+    async componentDidMount() {
+      const data = await fetch("/api")
+      console.log(data)
+    }
+
+
     handleInput(e){
-		
+
 		  if(e.target.id === this.state.language){
 			console.log("win")
 		  }
@@ -28,14 +33,14 @@ const tries = 3
 		  else{
 			console.log("loser")
 		  }
-		}    
+		}
     render(){
       return(
         <>
         <center>{this.state.word}</center>
         <center>{this.state.translated}</center>
 
-  
+
         <center className="btngroup1">
 
           <button id = "Czech" onClick={e => this.handleInput(e)}>Czech</button>
@@ -61,7 +66,7 @@ const tries = 3
     }
   }
 
-  
+
 
 
 export default App;

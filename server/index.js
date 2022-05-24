@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const translate = require('translate-google')
+const path = require('path');
 
 const PORT = process.env.PORT || 3001;
 
@@ -12,16 +13,16 @@ app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 
-app.get("/", async (req, res) => {
+app.get("/api", async (req, res) => {
 	res.send("Hello World");
-	var data = fs.readFileSync('wordle-answers-alphabetical.txt', 'utf8');
-    var words = data.toString().split("\n"); 
-	
+	var data = fs.readFileSync(path.join('server','data', 'wordle-answers-alphabetical.txt'), 'utf8');
+    var words = data.toString().split("\n");
+
 	var word = words[Math.floor(Math.random()*words.length)];
 	var language = languages[Math.floor(Math.random()*languages.length)]
 
 	var translated = await translate(word, {to: languages[Math.floor(Math.random()*languages.length)]})
-	
+
 	console.log(word, language, translated)
 
 
