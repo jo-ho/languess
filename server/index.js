@@ -20,7 +20,7 @@ app.get("/word", async (req, res) => {
 	var word = words[Math.floor(Math.random()*words.length)];
 	var language = languages[Math.floor(Math.random()*languages.length)]
 
-	var translated = await translate(word, {to: languages[Math.floor(Math.random()*languages.length)]})
+	var translated = await translate(word, {to: language})
 
   res.json({"word": word, "language": language, "translated": translated})
 
