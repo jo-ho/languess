@@ -1,5 +1,6 @@
 import React from "react";
-import { button } from 'reactstrap';
+import {Button, ButtonGroup, Alert} from 'reactstrap'
+import './App.css'
 
 const tries = 2
 
@@ -20,7 +21,9 @@ const tries = 2
         this.setState({
           word: data.word,
           translated: data.translated,
-          language: data.language
+          language: data.language,
+          gameEnd: false,
+          gameWin: false
         })
     }
 
@@ -29,67 +32,95 @@ const tries = 2
 
     handleInput(e){
 
+      e.target.disabled = true
 		  if(e.target.id === this.state.language){
-			  alert("win")
-        window.location.reload();
+			  this.setState({gameWin: true})
 		  }
 		  else if(this.state.counter < tries){
 			  this.setState({counter: this.state.counter+1})
-
-			  alert("lose try again")
 		  }
 		  else{
-			  alert("loser")
-        window.location.reload();
+			  this.setState({gameEnd: true})
 		  }
-      
-		}
-    
-    render(){
-      return(
-         
-        <>
-        <div class = "p-3 mb-2 bg-dark text-light">       
 
-<head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" />
-</head> 
-        
+		}
+
+    renderAlert() {
+
+      const gameEnd = this.state.gameEnd
+      const gameWin = this.state.gameWin
+      if (gameWin) {
+        return <Alert className="d-inline" color="success ">You Win!</Alert>
+      } else if (gameEnd) {
+        return <Alert className="d-inline" color="danger">You lose</Alert>
+      } else if (this.state.counter === 0) {
+        return ""
+      } else {
+        return <Alert className="d-inline" color="warning">Try Again, {tries - this.state.counter} tries left</Alert>
+      }
+
+
+    }
+
+    render(){
+
+
+      return(
+
+        <div class = "main p-3 mb-2 bg-dark text-light">
+
+
+<div className="py-4">
         <div class = "text-primary text-center">English = {this.state.word}  </div>
         <div class = "text-success text-center">Translated = {this.state.translated}</div>
-        <p> 
-
-        </p>
-        
+        </div>
         <div class = "text-center">
-          <div className="btngroup1" class = "btn-group col-sm-8" role = "group" aria-label="...">
+        {this.renderAlert()}
 
-            <button type ="button" class="btn btn-outline-light" id = "cs" onClick={e => this.handleInput(e)}> Czech </button>{'  '}
-            <button type ="button" class="btn btn-outline-light" id = "fr" onClick={e => this.handleInput(e)}> French </button>{'  '}
-            <button type ="button" class="btn btn-outline-light" id = "de" onClick={e => this.handleInput(e)}> German </button>
-          </div>
+
+        {this.state.word ?
+
+        <div className="py-4">
+        <div className = " text-center">
+          <ButtonGroup className='col-sm-8'>
+
+            <Button type ="button" outline  id = "cs" onClick={e => this.handleInput(e)}> Czech </Button>{'  '}
+            <Button type ="button" outline id = "fr" onClick={e => this.handleInput(e)}> French </Button>{'  '}
+            <Button type ="button" outline id = "de" onClick={e => this.handleInput(e)}> German </Button>
+        </ButtonGroup>
+        </div>
+        <div class = "text-center">
+          <ButtonGroup className='col-sm-8'>
+            <Button type ="button" outline id = "it" onClick={e => this.handleInput(e)}>Italian</Button>{' '}
+            <Button type ="button" outline  id = "no" onClick={e => this.handleInput(e)}>Norwegian</Button>{' '}
+            <Button type ="button" outline id = "pl" onClick={e => this.handleInput(e)}>Polish</Button>
+
+          </ButtonGroup>
         </div>
 
         <div class = "text-center">
-          <div className="btngroup2" class = "btn-group col-sm-8" role = "group" aria-label="...">
-            <button type ="button" class="btn btn-outline-light" id = "it" onClick={e => this.handleInput(e)}>Italian</button>{' '}
-            <button type ="button" class="btn btn-outline-light"  id = "no" onClick={e => this.handleInput(e)}>Norwegian</button>{' '}
-            <button type ="button" class="btn btn-outline-light" id = "pl" onClick={e => this.handleInput(e)}>Polish</button>
+          <ButtonGroup className='col-sm-8'>
+            <Button type ="button" outline id = "es" onClick={e => this.handleInput(e)}>Spanish</Button>{' '}
+            <Button type ="button" outline id = "sv" onClick={e => this.handleInput(e)}>Swedish</Button>{' '}
+            <Button type ="button" outline id = "tr" onClick={e => this.handleInput(e)}>Turkish</Button>
 
-          </div>
+          </ButtonGroup>
         </div>
+        </div>
+
+
+        : <div class = "text-primary text-center">Retrieving word... </div>}
+</div>
 
         <div class = "text-center">
-          <div className="btngroup3" class = "btn-group col-sm-8" role = "group" aria-label="...">
-            <button type ="button" class="btn btn-outline-light" id = "es" onClick={e => this.handleInput(e)}>Spanish</button>{' '}
-            <button type ="button" class="btn btn-outline-light" id = "sv" onClick={e => this.handleInput(e)}>Swedish</button>{' '}
-            <button type ="button" class="btn btn-outline-light" id = "tr" onClick={e => this.handleInput(e)}>Turkish</button>
+        {this.state.gameEnd || this.state.gameWin ?
+        <Button onClick={() => window.location.reload()}>Play again</Button>
+      : ""}
+</div>
 
-          </div>
-        </div>
         </div>
 
-        </>
+
       );
     }
   }

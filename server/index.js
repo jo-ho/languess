@@ -9,6 +9,9 @@ const app = express();
 
 var languages = ['cs', 'fr', 'de', 'it', 'no', 'pl', 'es', 'sv', 'tr']
 
+app.use(express.static(__dirname + '../client/public'));
+
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
