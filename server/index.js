@@ -9,18 +9,14 @@ const app = express();
 
 var languages = ['cs', 'fr', 'de', 'it', 'no', 'pl', 'es', 'sv', 'tr']
 
-app.use(express.static(__dirname + '../client/public'));
+const root = app.use(express.static(__dirname + '../client/public'));
 
 var data = fs.readFileSync(path.join('server','data', 'wordle-answers-alphabetical.txt'), 'utf8');
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
-const root = require('path').join(__dirname, '..', 'client', 'build')
-app.use(express.static(root));
-app.get("*", (req, res) => {
-    res.sendFile('index.html', { root });
-})
+
 
 app.get("/word", async (req, res) => {
 
@@ -35,3 +31,6 @@ app.get("/word", async (req, res) => {
 
 
 });
+app.get("*", (req, res) => {
+    res.sendFile('index.html', { root });
+})
