@@ -10,6 +10,10 @@
     "build": "cd client && npm install && npm run build",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
+
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "concurrently": "^7.2.1",
     "express": "^4.18.1",
