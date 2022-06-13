@@ -9,7 +9,7 @@ const app = express();
 
 var languages = ['cs', 'fr', 'de', 'it', 'no', 'pl', 'es', 'sv', 'tr']
 
-const root = app.use(express.static(__dirname + '../client/public'));
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 var data = fs.readFileSync(path.join('server','data', 'wordle-answers-alphabetical.txt'), 'utf8');
 
@@ -31,6 +31,6 @@ app.get("/word", async (req, res) => {
 
 
 });
-app.get("*", (req, res) => {
-    res.sendFile('index.html', { root });
-})
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
