@@ -2,6 +2,7 @@ import React from "react";
 import {Button, ButtonGroup, Alert} from 'reactstrap'
 import './App.css'
 
+
 const tries = 2
 
 
@@ -10,7 +11,7 @@ const tries = 2
 
     constructor(props) {
       super(props);
-      this.state = {word: "",translated: "", language: "", counter: 0};
+      this.state = {word: "",translated: "", language: "", answer: "" , counter: 0};
 
     }
 
@@ -22,6 +23,7 @@ const tries = 2
           word: data.word,
           translated: data.translated,
           language: data.language,
+          answer: data.answer,
           gameEnd: false,
           gameWin: false
         })
@@ -52,11 +54,12 @@ const tries = 2
       if (gameWin) {
         return <Alert className="d-inline" color="success ">You Win!</Alert>
       } else if (gameEnd) {
-        return <Alert className="d-inline" color="danger">You lose</Alert>
+        // console.log(this.state.answer)
+        return <Alert className="d-inline" color="danger">You lose, {this.state.answer}</Alert>
       } else if (this.state.counter === 0) {
         return ""
       } else {
-        return <Alert className="d-inline" color="warning">Try Again, {tries - this.state.counter} tries left</Alert>
+        return <Alert className="d-inline" color="warning">Try Again, {tries - this.state.counter+1} tries left</Alert>
       }
 
 
